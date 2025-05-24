@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <!--        <Property name="basePath">${sys:jboss.server.log.dir}/</Property>-->
+        <Property name="basePath">${sys:java.io.tmpdir}/TokenWS/</Property>
+    </Properties>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%style{[%d{yyyy-MM-dd HH:mm:ss.SSS}]}{white} %highlight{%-5level}{FATAL=red blink, ERROR=red, WARN=yellow, INFO=green, DEBUG=cyan, TRACE=blue} %style{[%t]}{cyan} %style{[%c{7.4}]}{blue} %style{[%M:%L]}{magenta} %msg%n"
+                    disableAnsi="false"
+                    noConsoleNoAnsi="false"/>
+        </Console>
+
+        <RollingFile name="RollingFile"
+                     fileName="${basePath}/API_INTERIOR_DESIGN.log"
+                     filePattern="${basePath}/API_INTERIOR_DESIGN_%d{yyyyMMdd}.log.gz">
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss.SSS}][%highlight{%-5level}][%t][%c{7.4}][%M:%L] %msg%n"/>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="100MB"/>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy >
+                <Delete basePath="${basePath}" maxDepth="30" >
+                    <IfLastModified age="365d"/>
+                </Delete>
+            </DefaultRolloverStrategy>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- LOG "org.interior_design" at TRACE level -->
+        <Logger name="org.interior_design" additivity="false">
+            <AppenderRef ref="RollingFile" level="DEBUG"/>
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <Logger name="org.springframework" additivity="false">
+            <AppenderRef ref="RollingFile" level="WARN"/>
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <Logger name="org.hibernate" additivity="false">
+            <AppenderRef ref="RollingFile" level="WARN"/>
+            <AppenderRef ref="Console" />
+        </Logger>
+
+        <!-- LOG everything at INFO level -->
+        <Root level="INFO">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+
+</Configuration>
