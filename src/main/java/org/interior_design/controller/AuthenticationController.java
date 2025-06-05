@@ -35,4 +35,9 @@ public class AuthenticationController {
     public ResponseEntity<APIResponse> authenticate(@RequestBody UserDTO userDTO) throws Exception {
         return ResponseEntity.ok(authenticationService.authenticate(userDTO));
     }
+
+    @PostMapping("/get_token_pair")
+    public ResponseEntity<APIResponse> getTokenPair(@RequestBody UserDTO userDTO) throws Exception {
+        return ResponseEntity.ok(authenticationService.getTokenPair(userDTO));
+    }
 }

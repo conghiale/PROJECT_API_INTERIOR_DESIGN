@@ -32,7 +32,7 @@ import java.util.List;
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userID;
+    private Integer ID;
 
     @Column(name = "USER_NAME")
     private String username;

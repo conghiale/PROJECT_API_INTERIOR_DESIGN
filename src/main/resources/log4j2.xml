@@ -2,7 +2,7 @@
 <Configuration>
     <Properties>
         <!--        <Property name="basePath">${sys:jboss.server.log.dir}/</Property>-->
-        <Property name="basePath">${sys:java.io.tmpdir}/TokenWS/</Property>
+        <Property name="basePath">${sys:java.io.tmpdir}/API_INTERIOR_DESIGN/</Property>
     </Properties>
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
@@ -30,24 +30,24 @@
 
     <Loggers>
         <!-- LOG "org.interior_design" at TRACE level -->
-        <Logger name="org.interior_design" additivity="false">
+        <Logger name="org.interior_design">
             <AppenderRef ref="RollingFile" level="DEBUG"/>
-            <AppenderRef ref="Console" />
+            <AppenderRef ref="Console" level="DEBUG"/>
         </Logger>
 
         <Logger name="org.springframework" additivity="false">
             <AppenderRef ref="RollingFile" level="WARN"/>
-            <AppenderRef ref="Console" />
+            <AppenderRef ref="Console" level="INFO"/>
         </Logger>
 
         <Logger name="org.hibernate" additivity="false">
             <AppenderRef ref="RollingFile" level="WARN"/>
-            <AppenderRef ref="Console" />
+            <AppenderRef ref="Console" level="WARN"/>
         </Logger>
 
         <!-- LOG everything at INFO level -->
-        <Root level="INFO">
-            <AppenderRef ref="Console" />
+        <Root level="DEBUG">
+<!--            <AppenderRef ref="Console" />-->
             <AppenderRef ref="RollingFile" />
         </Root>
     </Loggers>

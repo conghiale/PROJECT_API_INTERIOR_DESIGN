@@ -7,19 +7,18 @@ package org.interior_design.IService;
  */
 
 import org.interior_design.dto.APIResponse;
-import org.interior_design.dto.CategoryDTO;
+import org.interior_design.dto.ProjectDTO;
 import org.interior_design.dto.SectionDTO;
-import org.interior_design.model.Category;
 import org.springframework.data.domain.Pageable;
 
 /**
  * @ 2025. All rights reserved
  */
 
-public interface ICategoryService {
+public interface IProjectService {
     APIResponse getBySlug(String slug);
     APIResponse getAll(Pageable pageable);
-    APIResponse create(CategoryDTO categoryDTO);
-    APIResponse update(Integer ID, CategoryDTO categoryDTO);
+    APIResponse create(ProjectDTO projectDTO);
+    APIResponse update(Integer ID, ProjectDTO projectDTO);
     APIResponse delete(Integer ID);
 }

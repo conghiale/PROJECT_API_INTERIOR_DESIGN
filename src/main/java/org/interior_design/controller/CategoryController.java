@@ -9,7 +9,6 @@ package org.interior_design.controller;
 import lombok.RequiredArgsConstructor;
 import org.interior_design.dto.APIResponse;
 import org.interior_design.dto.CategoryDTO;
-import org.interior_design.model.Category;
 import org.interior_design.service.CategoryService;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -40,13 +39,13 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.create(categoryDTO));
     }
 
-    @PutMapping("/{slug}")
-    public ResponseEntity<APIResponse> updateCategory(@PathVariable("slug") String slug, @RequestBody CategoryDTO categoryDTO) {
-        return ResponseEntity.ok(categoryService.update(slug, categoryDTO));
+    @PutMapping("/{id}")
+    public ResponseEntity<APIResponse> editCategory(@PathVariable("id") Integer ID, @RequestBody CategoryDTO categoryDTO) {
+        return ResponseEntity.ok(categoryService.update(ID, categoryDTO));
     }
 
-    @DeleteMapping("/{slug}")
-    public ResponseEntity<APIResponse> delete(@PathVariable String slug) {
-        return ResponseEntity.ok(categoryService.delete(slug));
+    @DeleteMapping("/{id}")
+    public ResponseEntity<APIResponse> remove(@PathVariable("id") Integer ID) {
+        return ResponseEntity.ok(categoryService.delete(ID));
     }
 }

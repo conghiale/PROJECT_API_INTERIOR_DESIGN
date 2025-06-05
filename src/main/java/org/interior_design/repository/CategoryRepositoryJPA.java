@@ -22,5 +22,6 @@ import java.util.Optional;
 @Repository
 public interface CategoryRepositoryJPA extends JpaRepository<Category, Integer> {
     Optional<Category> findCategoriesBySlug(String slug);
+    Optional<Category> findCategoriesByID(Integer ID);
     Page<Category> findAll(Pageable pageable);
 }

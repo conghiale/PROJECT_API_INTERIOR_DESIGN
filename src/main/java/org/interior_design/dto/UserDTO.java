@@ -31,6 +31,7 @@ public class UserDTO {
     private String email;
     private String avatarURL;
     private String avatarBase64;
+    private String refreshToken;
 
     private Boolean isAdmin;
 }

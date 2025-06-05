@@ -100,11 +100,11 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public APIResponse update(String slug, CategoryDTO categoryDTO) {
+    public APIResponse update(Integer ID, CategoryDTO categoryDTO) {
         APIResponse apiResponse;
         try {
-            Category category = categoryRepositoryJPA.findCategoriesBySlug(slug)
-                    .orElseThrow(() -> new UsernameNotFoundException("Category with slug " + slug + " not found"));
+            Category category = categoryRepositoryJPA.findCategoriesByID(ID)
+                    .orElseThrow(() -> new UsernameNotFoundException("Category with ID " + ID + " not found"));
             Category categoryToUpdate = fromDto(categoryDTO);
             categoryToUpdate.setID(category.getID());
 
@@ -117,7 +117,7 @@ public class CategoryService implements ICategoryService {
                     .build();
 
         } catch (Exception e) {
-            log.error("[CHECK UPDATE] Error while update category with slug {}. Details: {}", slug, Utils.printStackTrace(e));
+            log.error("[CHECK UPDATE] Error while update category with ID {}. Details: {}", ID, Utils.printStackTrace(e));
             apiResponse = APIResponse.builder()
                     .code(-1)
                     .message("Updated category failed")
@@ -128,11 +128,11 @@ public class CategoryService implements ICategoryService {
     }
 
     @Override
-    public APIResponse delete(String slug) {
+    public APIResponse delete(Integer ID) {
         APIResponse apiResponse;
         try {
-            Category category = categoryRepositoryJPA.findCategoriesBySlug(slug)
-                    .orElseThrow(() -> new UsernameNotFoundException("Category with slug " + slug + " not found"));
+            Category category = categoryRepositoryJPA.findCategoriesByID(ID)
+                    .orElseThrow(() -> new UsernameNotFoundException("Category with ID " + ID + " not found"));
 
             categoryRepositoryJPA.delete(category);
 
@@ -143,7 +143,7 @@ public class CategoryService implements ICategoryService {
                     .build();
 
         } catch (Exception e) {
-            log.error("[CHECK DELETE] Error while delete category with slug {}. Details: {}", slug, Utils.printStackTrace(e));
+            log.error("[CHECK DELETE] Error while delete category with ID {}. Details: {}", ID, Utils.printStackTrace(e));
             apiResponse = APIResponse.builder()
                     .code(-1)
                     .message("Delete category failed")
