@@ -139,7 +139,7 @@ public class CategoryService implements ICategoryService {
             apiResponse = APIResponse.builder()
                     .code(0)
                     .message("Category deleted")
-                    .data(category)
+                    .data(toDTO(category))
                     .build();
 
         } catch (Exception e) {

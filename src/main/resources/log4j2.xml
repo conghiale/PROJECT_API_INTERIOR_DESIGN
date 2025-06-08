@@ -36,8 +36,13 @@
         </Logger>
 
         <Logger name="org.springframework" additivity="false">
-            <AppenderRef ref="RollingFile" level="WARN"/>
+            <AppenderRef ref="RollingFile" level="ERROR"/>
             <AppenderRef ref="Console" level="INFO"/>
+        </Logger>
+
+        <Logger name="org.springframework.data" additivity="false">
+            <AppenderRef ref="RollingFile" level="ERROR"/>
+            <AppenderRef ref="Console" level="ERROR"/>
         </Logger>
 
         <Logger name="org.hibernate" additivity="false">

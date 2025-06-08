@@ -25,7 +25,7 @@ public class CategoryController {
     private final CategoryService categoryService;
 
     @GetMapping("/{slug}")
-    public ResponseEntity<APIResponse> getByID(@PathVariable("slug") String slug) {
+    public ResponseEntity<APIResponse> getBySlug(@PathVariable("slug") String slug) {
         return ResponseEntity.ok(categoryService.getBySlug(slug));
     }
 

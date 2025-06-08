@@ -91,6 +91,18 @@ CREATE TABLE IMAGE (
     CHECK (IMAGE_BASE64 IS NOT NULL OR IMAGE_URL IS NOT NULL)
 );
 
+INSERT INTO `IMAGE` (IMAGE_BASE64, IMAGE_URL) VALUES 
+('Image base64 01', 'Imaage base64 01'), 
+('Image base64 02', 'Imaage base64 02'), 
+('Image base64 03', 'Imaage base64 03'), 
+('Image base64 04', 'Imaage base64 04'), 
+('Image base64 05', 'Imaage base64 05'), 
+('Image base64 06', 'Imaage base64 06'),
+('Image base64 07', 'Imaage base64 07'), 
+('Image base64 08', 'Imaage base64 08'), 
+('Image base64 09', 'Imaage base64 09'), 
+('Image base64 10', 'Imaage base64 10');
+
 -- Create PRODUCT_STATUS table
 DROP TABLE IF EXISTS PRODUCT_STATUS;
 CREATE TABLE PRODUCT_STATUS (
@@ -273,6 +285,19 @@ CREATE TABLE TESTIMONIAL (
     FOREIGN KEY (IMAGE_ID) REFERENCES IMAGE(ID) ON DELETE RESTRICT
 );
 
+-- Insert sample TESTIMONIAL data
+INSERT INTO TESTIMONIAL (NAME, CONTENT, RATING, PROJECT_ID, IMAGE_ID) VALUES 
+('Anh Bình', 'Giá hợp lý, chất lượng tốt, đội ngũ thi công thân thiện.', 5, 1, 1),
+('Chị Hương', 'Thiết kế sang trọng, phù hợp với không gian sống.', 4, 2, 2),
+('Anh Duy', 'Mình được người quen giới thiệu cho bên này. Đánh giá chất lượng khá tốt, giá thành ổn, bàn giao đúng tiến độ.', 5, 3, 3),
+('Chị Lan', 'Tư vấn nhiệt tình, chuyên nghiệp.', 5, 4, 4),
+('Anh Tuấn', 'Sản phẩm đẹp, chất lượng cao.', 4, 5, 5),
+('Chị Mai', 'Dịch vụ chăm sóc khách hàng tốt.', 5, 6, 6),
+('Anh Hoàng', 'Đội ngũ thi công chuyên nghiệp.', 4, 7, 7),
+('Chị Thảo', 'Rất hài lòng với kết quả cuối cùng.', 5, 8, 8),
+('Anh Đức', 'Giá cả phải chăng, chất lượng tốt.', 4, 9, 9),
+('Chị Ngọc', 'Thiết kế hiện đại, phù hợp xu hướng.', 5, 10, 10);
+
 -- Create SPONSOR table
 DROP TABLE IF EXISTS SPONSOR;
 CREATE TABLE SPONSOR (
@@ -286,6 +311,87 @@ CREATE TABLE SPONSOR (
     FOREIGN KEY (IMAGE_ID) REFERENCES IMAGE(ID) ON DELETE RESTRICT
 );
 
+-- Insert sample SPONSOR data
+INSERT INTO SPONSOR (NAME, `ORDER`, IS_ACTIVE, IMAGE_ID) VALUES 
+('An Cường', 1, true, 1),
+('Malloca', 2, true, 2),
+('Häfele', 3, true, 3),
+('Hettich', 4, true, 4),
+('Blum', 5, true, 5),
+('Caesar', 6, true, 6),
+('Dulux', 7, true, 7),
+('Jotun', 8, true, 8),
+('TOTO', 9, true, 9),
+('Kohler', 10, true, 10);
+
+-- Create QUOTE_TYPE table
+DROP TABLE IF EXISTS QUOTE_TYPE;
+CREATE TABLE QUOTE_TYPE (
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    NAME VARCHAR(255) NOT NULL,
+    DESCRIPTION TEXT,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Insert sample data for QUOTE_TYPE
+INSERT INTO QUOTE_TYPE (NAME, DESCRIPTION)
+VALUES 
+    ('Thiết kế nội thất', 'Thiết kế nội thất'),
+    ('Thi công nội thất', 'Thi công nội thất');
+
+-- Create QUOTE table
+DROP TABLE IF EXISTS QUOTE;
+CREATE TABLE QUOTE (
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    -- SLUG VARCHAR(255) NOT NULL UNIQUE,
+    TITLE VARCHAR(255) NOT NULL,
+    SUBTITLE VARCHAR(255),
+    QUOTE_TYPE_ID BIGINT NOT NULL,
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (QUOTE_TYPE_ID) REFERENCES QUOTE_TYPE(ID) ON DELETE RESTRICT
+);
+
+-- Insert sample QUOTE data
+INSERT INTO QUOTE (TITLE, SUBTITLE, QUOTE_TYPE_ID) VALUES 
+('Báo giá tủ bếp căn hộ 70m2', 'Chung cư Vinhomes', 1),
+('Báo giá tủ áo phòng master', 'Biệt thự Phú Mỹ Hưng', 2),
+('Báo giá tủ bếp biệt thự', 'Biệt thự Thảo Điền', 1),
+('Báo giá tủ áo walk-in', 'Penthouse Landmark 81', 2),
+('Báo giá tủ bếp căn hộ 100m2', 'Chung cư Masteri', 1),
+('Báo giá tủ áo 4 cánh', 'Căn hộ Sunrise City', 2),
+('Báo giá tủ bếp chữ L', 'Nhà phố Thủ Đức', 1),
+('Báo giá tủ áo âm tường', 'Căn hộ Empire City', 2),
+('Báo giá tủ bếp island', 'Biệt thự Quận 2', 1),
+('Báo giá tủ áo kết hợp bàn trang điểm', 'Căn hộ Feliz En Vista', 2);
+
+-- Create QUOTE_ITEM table to handle the array of items
+DROP TABLE IF EXISTS QUOTE_ITEM;
+CREATE TABLE QUOTE_ITEM (
+    ID BIGINT PRIMARY KEY AUTO_INCREMENT,
+    QUOTE_ID BIGINT NOT NULL,
+    CONTENT VARCHAR(255) NOT NULL,
+    PRICE VARCHAR(100) NOT NULL,
+    -- QUANTITY INT NOT NULL DEFAULT 1 CHECK (QUANTITY >= 1),
+    CREATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    UPDATED_AT TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (QUOTE_ID) REFERENCES QUOTE(ID) ON DELETE CASCADE
+);
+
+-- Insert sample QUOTE_ITEM data
+INSERT INTO QUOTE_ITEM (QUOTE_ID, CONTENT, PRICE) VALUES 
+(1, 'Tủ bếp trên', '15,000,000 VNĐ'),
+(1, 'Tủ bếp dưới', '25,000,000 VNĐ'),
+(2, 'Tủ quần áo 4 cánh', '35,000,000 VNĐ'),
+(2, 'Kệ giày', '8,000,000 VNĐ'),
+(3, 'Tủ bếp cao cấp', '45,000,000 VNĐ'),
+(3, 'Đảo bếp', '30,000,000 VNĐ'),
+(4, 'Tủ áo walk-in', '55,000,000 VNĐ'),
+(4, 'Kệ phụ kiện', '12,000,000 VNĐ'),
+(5, 'Tủ bếp module', '28,000,000 VNĐ'),
+(5, 'Phụ kiện tủ bếp', '7,000,000 VNĐ');
+
 -- Create indexes for better performance
 CREATE INDEX IDX_USER_AUTH_PROVIDER ON USER(AUTH_PROVIDER_ID);
 CREATE INDEX IDX_PRODUCT_STATUS ON PRODUCT(PRODUCT_STATUS_ID);
@@ -295,3 +401,5 @@ CREATE INDEX IDX_PROJECT_STATUS ON PROJECT(PROJECT_STATUS_ID);
 CREATE INDEX IDX_SECTION_TYPE ON SECTION(SECTION_TYPE_ID);
 CREATE INDEX IDX_SECTION_ITEM_ORDER ON SECTION_ITEM(`ORDER`);
 CREATE INDEX IDX_SPONSOR_ORDER ON SPONSOR(`ORDER`);
+CREATE INDEX IDX_QUOTE_TYPE ON QUOTE(QUOTE_TYPE_ID);
+CREATE INDEX IDX_QUOTE_ITEM_QUOTE ON QUOTE_ITEM(QUOTE_ID);
