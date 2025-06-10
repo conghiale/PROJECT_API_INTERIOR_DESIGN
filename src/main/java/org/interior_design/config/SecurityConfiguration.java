@@ -9,6 +9,7 @@ package org.interior_design.config;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -40,7 +41,16 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults()) // Enable CORS
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/**", "/api/v2/**").permitAll() // Public URL example
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/v2/auth_provider", "/api/v2/auth_provider/{id}",
+                                "/api/v2/category", "/api/v2/category/{slug}",
+                                "/api/v2/sections", "/api/v2/sections/{code}",
+                                "/api/v2/project", "/api/v2/project/{slug}",
+                                "/api/v2/testimonial", "/api/v2/testimonial/{id}",
+                                "/api/v2/sponsor", "/api/v2/sponsor/{id}",
+                                "/api/v2/quote", "/api/v2/quote/{id}", "/api/v2/quote/type/{typeID}").permitAll() // Public URL example
+                                .requestMatchers("/api/v1/**").permitAll()
+//                                .requestMatchers("/api/v1/**", "/api/v2/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session

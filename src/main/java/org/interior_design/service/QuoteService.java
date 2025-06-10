@@ -60,6 +60,40 @@ public class QuoteService implements IQuoteService {
     }
 
     @Override
+    public APIResponse getByQuoteType(Integer typeID) {
+        APIResponse apiResponse;
+        try {
+            QuoteType quoteType = quoteTypeRepositoryJPA.findByID(typeID)
+                    .orElseThrow(() -> new RuntimeException("Quote type with id " + typeID + " not found"));
+
+            List<Quote> quotes = quoteRepositoryJPA.findByQuoteType(quoteType);
+
+            if (quotes.isEmpty()) {
+                throw new RuntimeException("No quotes found with type id " + typeID);
+            }
+
+            List<QuoteDTO> quoteDTOs = quotes.stream()
+                    .map(this::toDTO)
+                    .collect(Collectors.toList());
+
+            apiResponse = APIResponse.builder()
+                    .code(0)
+                    .message("Quotes with type id " + quoteType.getID() + " found")
+                    .data(quoteDTOs)
+                    .build();
+        } catch (Exception e) {
+            log.error("[CHECK GET BY QUOTE TYPE] Error while getting quotes by type id {}. Details: {}",
+                    typeID, Utils.printStackTrace(e));
+            apiResponse = APIResponse.builder()
+                    .code(-1)
+                    .message("Quotes with type id " + typeID + " not found")
+                    .build();
+        }
+
+        return apiResponse;
+    }
+
+    @Override
     public APIResponse getAll(Pageable pageable) {
         APIResponse apiResponse;
         try {

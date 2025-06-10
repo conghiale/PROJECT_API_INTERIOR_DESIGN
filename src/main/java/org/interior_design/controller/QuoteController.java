@@ -30,18 +30,23 @@ public class QuoteController {
         return ResponseEntity.ok(quoteService.getByID(ID));
     }
 
+    @GetMapping("/type/{typeID}")
+    public ResponseEntity<APIResponse> getByQuoteType(@PathVariable("typeID") Integer typeID) {
+        return ResponseEntity.ok(quoteService.getByQuoteType(typeID));
+    }
+
     @GetMapping
-    public ResponseEntity<APIResponse> getAllTestimonials(Pageable pageable) {
+    public ResponseEntity<APIResponse> getAllQuotes(Pageable pageable) {
         return ResponseEntity.ok(quoteService.getAll(pageable));
     }
 
     @PostMapping
-    public ResponseEntity<APIResponse> addTestimonial(@RequestBody QuoteDTO quoteDTO) {
+    public ResponseEntity<APIResponse> addQuote(@RequestBody QuoteDTO quoteDTO) {
         return ResponseEntity.ok(quoteService.create(quoteDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<APIResponse> editTestimonial(@PathVariable("id") Integer ID, @RequestBody QuoteDTO quoteDTO) {
+    public ResponseEntity<APIResponse> editQuote(@PathVariable("id") Integer ID, @RequestBody QuoteDTO quoteDTO) {
         return ResponseEntity.ok(quoteService.update(ID, quoteDTO));
     }
 
